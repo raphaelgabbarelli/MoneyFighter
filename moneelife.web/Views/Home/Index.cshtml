@@ -11,6 +11,8 @@
     </li>
     </ul>
     <button v-on:click="Add">Another account?</button>
+    <br/>
+    <button v-on:click="postSnapshot">Validate</button>
 </div>
 
 <script>
@@ -29,6 +31,30 @@
             },
             remove: function (index) {
                 this.accounts.splice(index, 1);
+            },
+            postSnapshot: function () {
+                
+                var snapshot = {
+                    accounts: this.accounts,
+                    expenses: { total: 0 },
+                    goals: [],
+                    emergency: { actualamount: 0, minimum: 0, maximum: 0 }
+                };
+
+                console.log(JSON.stringify(snapshot));
+
+                $.ajax({
+                    type: "POST",
+                    url: "Home/PostSnapshot",
+                    data: JSON.stringify(snapshot),
+                    headers: { 
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json' 
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
             }
         }
     })
