@@ -10,6 +10,13 @@ namespace moneelife.web.Controllers
 {
     public class HomeController : Controller
     {
+        public IActionResult Snapshot()
+        {
+            Snapshot getStarted = new Snapshot();
+            return Json(getStarted);
+
+        }
+
         public IActionResult Index()
         {
             return View();
