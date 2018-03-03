@@ -1,5 +1,36 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+ 
+<div id="snapshot">
+    {{ message }}
+    <ul>
+    <li v-for="(account, index) in accounts">
+        <br /><input v-model="account.nickname"><input v-model="account.balance">{{account.currency}}<br />
+        <button v-on:click="remove(index)">Remove</button>
+    </li>
+    </ul>
+    <button v-on:click="Add">Another account?</button>
+</div>
 
-Hello world
+<script>
+    var app = new Vue({
+        el: '#snapshot',
+        data: {
+            message: 'Hi, add an account',
+            accounts : [{
+                nickname: 'Give it a name',
+                balance: 'Current amount of money',
+                currency: 'czk'
+            }]},
+        methods: {
+            Add: function () {
+                this.accounts.push({ nickname: "new account", balance: "amount", currency: "czk"  });
+            },
+            remove: function (index) {
+                this.accounts.splice(index, 1);
+            }
+        }
+    })
+</script>
+
