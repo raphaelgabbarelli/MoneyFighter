@@ -11,6 +11,8 @@ namespace moneelife.web.Models
 
             Accounts = new List<Account>();
             Goals = new List<Goal>();
+            Emergency = new Emergency();
+            Expenses = new Expense();
 
         }
 

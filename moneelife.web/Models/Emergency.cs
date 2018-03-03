@@ -7,6 +7,8 @@ namespace moneelife.web.Models
 {
     public class Emergency
     {
+        public Emergency()
+        { }
 
         public decimal ActualAmount { get; set;  }
 
