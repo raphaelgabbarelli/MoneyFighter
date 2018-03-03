@@ -27,13 +27,12 @@ namespace moneelife.web
             var hostUrl = configuration["hosturl"];
             if (string.IsNullOrEmpty(hostUrl))
                 hostUrl = "http://0.0.0.0:5000";
-
-
+            
             return WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseUrls(hostUrl)   // <!-- this 
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
+                //.UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseConfiguration(configuration)
                 .Build();
