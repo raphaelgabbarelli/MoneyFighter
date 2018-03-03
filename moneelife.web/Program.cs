@@ -14,6 +14,11 @@ namespace moneelife.web
     {
         public static void Main(string[] args)
         {
+            BuildWebHost(args).Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args)
+        {
             // use this to allow command line parameters in the config
             var configuration = new ConfigurationBuilder()
                 .AddCommandLine(args)
@@ -23,7 +28,8 @@ namespace moneelife.web
             if (string.IsNullOrEmpty(hostUrl))
                 hostUrl = "http://0.0.0.0:5000";
 
-            var host = new WebHostBuilder()
+
+            return WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseUrls(hostUrl)   // <!-- this 
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -31,14 +37,6 @@ namespace moneelife.web
                 .UseStartup<Startup>()
                 .UseConfiguration(configuration)
                 .Build();
-
-            host.Run();
-            //BuildWebHost(args).Run();
         }
-
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
     }
 }
