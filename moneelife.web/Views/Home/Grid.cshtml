@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewData["Title"] = "Grid";
+}
+
+<div id="snapshot" class="container">
+    <div class="row">
+        <div class="col-lg-12">CASH</div>
+    </div>
+    <div class="row" v-for="(account, index) in accounts">
+        <div class="col-lg-1">
+            <span>{{account.nickname}}</span>
+        </div>
+        <div class="col-lg-3">
+            <span>{{account.balance}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1">TOTAL</div>
+        <div class="col-lg-3">
+            {{totalCash}}
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-lg-1">EMERGENCY</div>
+        <div class="col-lg-3">
+            {{emergency.actualAmount}} [{{emergency.minimum}} - {{emergency.maximum}}]
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+        <div class="col-lg-1">Goals</div>
+        <div class="col-lg-3">saved so far</div>
+        <div class="col-lg-2">target date</div>
+        <div class="col-lg-2">how much it will cost</div>
+    </div>
+    <div class="row" v-for="(goal, index) in goals">
+        <div class="col-lg-1">{{goal.name}}</div>
+        <div class="col-lg-3">{{goal.currentValue}}</div>
+        <div class="col-lg-2">{{goal.targetDate}}</div>
+        <div class="col-lg-2">{{goal.amount}}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1">TOTAL</div>
+        <div class="col-lg-3">{{totalContribution}}</div>
+        <div class="col-lg-2"></div>
+        <div class="col-lg-2">{{totalGoals}}</div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-lg-1">AVAILABLE</div>
+        <div class="col-lg-3">
+            {{available}}
+        </div>
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script>
+        var snapshotData = {
+            accounts: [],
+            emergency: { ActualAmount: 0, Minimum: 0, Maximum: 0 },
+            expenses: null,
+            goals: [],
+            totalCash: 0,
+            totalGoals: 0,
+            totalContribution: 0,
+            available: 0
+        };
+
+        var app = new Vue({
+            el: '#snapshot',
+            data: snapshotData,
+            methods: {
+                setSnapshot: function(data) {
+                    console.log(data);
+                    this.accounts = data.snapshot.accounts;
+                    this.emergency = data.snapshot.emergency;
+                    this.expenses = data.snapshot.expenses;
+                    this.goals = data.snapshot.goals;
+                    this.totalCash = data.totalCash;
+                    this.totalGoals = data.totalGoals;
+                    this.totalContribution = data.totalContribution;
+                    this.available = data.available;
+                }
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "../Home/Snapshot",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            success: function(response) {
+                app.setSnapshot(response);
+            }
+        });
+
+
+    </script>
+}
