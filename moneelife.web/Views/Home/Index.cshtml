@@ -1,43 +1,75 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
- 
 <div id="snapshot">
     {{ message }}
     <ul>
     <li v-for="(account, index) in accounts">
         <br /><input v-model="account.nickname"><input v-model="account.balance">{{account.currency}}<br />
-        <button v-on:click="remove(index)">Remove</button>
+        <button v-on:click="removeAccount(index)">Remove</button>
     </li>
     </ul>
-    <button v-on:click="Add">Another account?</button>
-    <br/>
+    <button v-on:click="AddAccount">Add an account?</button>
+    <br/><br/>
+    {{message2}}
+    <ul>
+        <li v-for="(goal, index) in goals">
+            <br/><input v-model="goal.name"><input v-model="goal.targetAmount">{{goal.currency}}<br />
+            <input v-model="goal.targetDate"> <br />
+            <button v-on:click="removeGoal(index)">Remove</button>
+        </li>
+    </ul>
+    <button v-on:click="AddGoal">Add a goal?</button>
+    <br /> <br />
+    {{message3}} <br /><br />
+    <input v-model="expenses"> 
+    {{currency}}
+    <br /><br />
     <button v-on:click="postSnapshot">Validate</button>
 </div>
+
+
 
 <script>
     var app = new Vue({
         el: '#snapshot',
         data: {
             message: 'Hi, add an account',
-            accounts : [{
+            accounts: [{
                 nickname: 'Give it a name',
                 balance: 'Current amount of money',
                 currency: 'czk'
-            }]},
+            }],
+            message2: 'Set your goal',
+            goals: [{
+                name: 'Give it a name',
+                targetAmount: 'How much will it cost?',
+                targetDate: 'When do you want to have it?',
+                currency: 'czk'
+            }],
+            message3: 'Total amount of expenses per month',
+            expenses: 'Type here the value',
+            currency: 'czk'
+        },
         methods: {
-            Add: function () {
-                this.accounts.push({ nickname: "new account", balance: "amount", currency: "czk"  });
+            AddAccount: function () {
+                this.accounts.push({ nickname: "new account", balance: "amount", currency: "czk" });
             },
-            remove: function (index) {
+            removeAccount: function (index) {
                 this.accounts.splice(index, 1);
             },
+            AddGoal: function () {
+                this.goals.push({ name: "new goal", targetAmount: "prise", targetDate: "date", currency: "czk" });
+            },
+            removeGoal: function (index) {
+                this.goals.splice(index, 1);
+            },
             postSnapshot: function () {
-                
+
                 var snapshot = {
                     accounts: this.accounts,
-                    expenses: { total: 0 },
-                    goals: [],
+                    expenses: this.expenses,
+                    goals: this.goals,
                     emergency: { actualamount: 0, minimum: 0, maximum: 0 }
                 };
 
@@ -47,16 +79,18 @@
                     type: "POST",
                     url: "Home/PostSnapshot",
                     data: JSON.stringify(snapshot),
-                    headers: { 
+                    headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json' 
+                        'Content-Type': 'application/json'
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log(response);
                     }
                 });
             }
         }
-    })
+    });
+    
 </script>
+
 
