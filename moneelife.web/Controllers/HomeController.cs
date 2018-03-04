@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using moneelife.web.Logic;
 using Microsoft.AspNetCore.Mvc;
 using moneelife.web.Models;
 using Newtonsoft.Json;
@@ -29,12 +30,14 @@ namespace moneelife.web.Controllers
         [HttpPost]
         public IActionResult PostSnapshot([FromBody] Snapshot snapshot)
         {
+            Algorithm a = new Algorithm();
+            a.CrunchNumbers(ref snapshot);
             var serialized = JsonConvert.SerializeObject(snapshot);
             
             string path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data", "mysnapshot.json");
             System.IO.File.WriteAllText(path, serialized);
 
-            return Json(new { });
+            return Json(new { snapshot = snapshot });
         }
 
         public IActionResult Index()
