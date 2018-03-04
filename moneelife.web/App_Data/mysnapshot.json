@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 null
+=======
+{"Accounts":[{"Nickname":"Account 1","Balance":123000.0},{"Nickname":"Account 2","Balance":456000.0}],"Emergency":{"ActualAmount":17500.0,"Minimum":94500.0,"Maximum":115500.0},"Goals":[{"Name":"TV","TargetDate":"2018-09-01T00:00:00","StartDate":"2018-03-01T00:00:00","Amount":21000.0,"CurrentValue":3500.0}],"Expenses":{"Total":35000.0}}
+>>>>>>> master
